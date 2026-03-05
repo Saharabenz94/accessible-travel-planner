@@ -37,21 +37,41 @@ INSERT INTO places (name, type, address, city, country, latitude, longitude, des
 ('Accessible Comfort Vienna', 'hotel', '3 Ringstrasse', 'Vienna', 'Austria', 48.202800, 16.366500, 'Elegant hotel near Vienna State Opera with full accessibility.'),
 ('Universal Welcome Stockholm', 'hotel', '30 Vasagatan', 'Stockholm', 'Sweden', 59.330900, 18.060600, 'Modern hotel with hearing loops, tactile signage, and roll-in showers.');
 
--- Insert accessibility data for all places
+-- Accessibility features per place (explicit assignments for clarity)
+-- Fully accessible: wheelchair + braille menu + accessible restroom + step-free entry
 INSERT INTO place_accessibility (place_id, wheelchair_accessible, braille_menu, accessible_restroom, step_free_entry)
-SELECT id,
-    CASE WHEN id % 3 != 0 THEN TRUE ELSE FALSE END,
-    CASE WHEN id % 2 = 0 THEN TRUE ELSE FALSE END,
-    CASE WHEN id % 3 != 2 THEN TRUE ELSE FALSE END,
-    CASE WHEN id % 4 != 0 THEN TRUE ELSE FALSE END
-FROM places;
+SELECT id, TRUE, TRUE, TRUE, TRUE FROM places WHERE name IN (
+    'The Accessible Grand Hotel', 'Inclusive Stay London', 'Barrier-Free Boutique Paris',
+    'Open Table Bistro', 'The Inclusive Kitchen', 'Accessible Brasserie',
+    'Ramp & Dine San Francisco', 'Roll In Café Toronto'
+);
 
--- Override to ensure variety of fully accessible places
-UPDATE place_accessibility SET wheelchair_accessible = TRUE, braille_menu = TRUE, accessible_restroom = TRUE, step_free_entry = TRUE
-WHERE place_id IN (1, 2, 3, 11, 12, 13, 21, 22);
+-- Wheelchair + accessible restroom + step-free (no braille menu)
+INSERT INTO place_accessibility (place_id, wheelchair_accessible, braille_menu, accessible_restroom, step_free_entry)
+SELECT id, TRUE, FALSE, TRUE, TRUE FROM places WHERE name IN (
+    'Access All Areas Hotel', 'Equal Access Hotel Tokyo', 'Freedom Stay Berlin',
+    'Open Plate Sydney', 'Equal Eats Tokyo', 'Barrier-Free Bistro Berlin',
+    'Welcome All Hotel Toronto', 'Inclusive Heritage Rome'
+);
 
-UPDATE place_accessibility SET wheelchair_accessible = TRUE, braille_menu = FALSE, accessible_restroom = TRUE, step_free_entry = TRUE
-WHERE place_id IN (4, 5, 6, 14, 15, 16, 23, 24);
+-- Wheelchair + step-free (no braille menu, no accessible restroom)
+INSERT INTO place_accessibility (place_id, wheelchair_accessible, braille_menu, accessible_restroom, step_free_entry)
+SELECT id, TRUE, FALSE, FALSE, TRUE FROM places WHERE name IN (
+    'Open Doors Hotel Barcelona', 'Inclusive Palms Miami',
+    'Accessible Tapas Barcelona', 'Inclusive Diner Miami'
+);
 
-UPDATE place_accessibility SET wheelchair_accessible = FALSE, braille_menu = TRUE, accessible_restroom = FALSE, step_free_entry = TRUE
-WHERE place_id IN (7, 8, 17, 18, 25, 26);
+-- Step-free + braille menu (not fully wheelchair accessible)
+INSERT INTO place_accessibility (place_id, wheelchair_accessible, braille_menu, accessible_restroom, step_free_entry)
+SELECT id, FALSE, TRUE, FALSE, TRUE FROM places WHERE name IN (
+    'UniversalComfort Amsterdam', 'All Welcome Suites Chicago',
+    'Open Eet Amsterdam', 'Accessible Eats Chicago',
+    'Level Ground Bistro Vienna', 'All Access Café Stockholm'
+);
+
+-- Fully accessible (remaining hotels/restaurants)
+INSERT INTO place_accessibility (place_id, wheelchair_accessible, braille_menu, accessible_restroom, step_free_entry)
+SELECT id, TRUE, TRUE, TRUE, TRUE FROM places WHERE name IN (
+    'Ramp & Rest Hotel San Francisco', 'Accessible Comfort Vienna', 'Universal Welcome Stockholm',
+    'Open Doors Eatery Rome'
+);
