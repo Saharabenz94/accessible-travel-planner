@@ -1,0 +1,288 @@
+/* === Reset & Base === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #f0f4f8;
+  color: #1a202c;
+  line-height: 1.6;
+}
+
+a { color: #3182ce; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* === Navbar === */
+.navbar {
+  background: #1a365d;
+  color: #fff;
+  padding: 0 1.5rem;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.navbar-brand a { color: #fff; font-size: 1.25rem; font-weight: 700; }
+.navbar-links { display: flex; gap: 1.5rem; flex: 1; }
+.navbar-links a { color: #a0aec0; font-size: 0.95rem; padding: 0.4rem 0; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.navbar-links a:hover, .navbar-links a.active { color: #fff; border-bottom-color: #63b3ed; text-decoration: none; }
+.navbar-user { display: flex; align-items: center; gap: 1rem; color: #e2e8f0; font-size: 0.9rem; }
+
+/* === Main Content === */
+.main-content { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+
+/* === Auth Pages === */
+.auth-container {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.auth-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 420px;
+}
+.auth-card h1 { text-align: center; font-size: 1.4rem; color: #2d3748; margin-bottom: 0.5rem; }
+.auth-card h2 { text-align: center; font-size: 1.6rem; font-weight: 700; margin-bottom: 1.5rem; color: #1a365d; }
+.auth-switch { text-align: center; margin-top: 1.5rem; color: #718096; }
+
+/* === Forms === */
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.35rem; color: #4a5568; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  background: #fff;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49,130,206,0.15);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+/* === Buttons === */
+.btn-primary {
+  display: inline-block;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background: #3182ce;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-primary:hover:not(:disabled) { background: #2b6cb0; }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-secondary {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #ebf8ff;
+  color: #2b6cb0;
+  border: 1px solid #bee3f8;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.btn-secondary:hover { background: #bee3f8; text-decoration: none; }
+.btn-ghost {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: #718096;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { background: #f7fafc; color: #2d3748; }
+.btn-danger {
+  padding: 0.5rem 1rem;
+  background: #fff5f5;
+  color: #c53030;
+  border: 1px solid #fed7d7;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-danger:hover { background: #fed7d7; }
+
+/* === Banners === */
+.error-banner {
+  background: #fff5f5;
+  border: 1px solid #fc8181;
+  color: #c53030;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+.success-banner {
+  background: #f0fff4;
+  border: 1px solid #9ae6b4;
+  color: #276749;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+/* === Page === */
+.page { padding: 0.5rem 0 2rem; }
+.page h2 { font-size: 1.75rem; font-weight: 700; margin-bottom: 1.5rem; color: #1a365d; }
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+.page-header h2 { margin-bottom: 0; }
+.page-header .btn-primary { width: auto; }
+
+/* === Search Form === */
+.search-form { background: #fff; padding: 1.25rem; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 1.5rem; }
+.search-row { display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.search-row .select-input, .search-row .text-input {
+  padding: 0.6rem 0.85rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  flex: 1;
+  min-width: 140px;
+}
+.search-row .btn-primary { width: auto; }
+.filter-checkboxes { display: flex; gap: 1rem; flex-wrap: wrap; }
+.checkbox-label { display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; cursor: pointer; color: #4a5568; }
+.checkbox-label input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
+
+/* === Places Grid === */
+.places-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+.place-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: box-shadow 0.2s;
+}
+.place-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.place-header { display: flex; flex-direction: column; gap: 0.3rem; }
+.place-type-badge { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #718096; }
+.place-header h3 { font-size: 1.1rem; font-weight: 700; color: #1a365d; }
+.place-address { font-size: 0.875rem; color: #4a5568; }
+.place-description { font-size: 0.875rem; color: #718096; line-height: 1.5; flex: 1; }
+.place-card .btn-secondary { align-self: flex-start; margin-top: auto; }
+
+/* === Accessibility Badges === */
+.accessibility-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.badge { font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 9999px; font-weight: 600; }
+.badge-green { background: #f0fff4; color: #276749; border: 1px solid #9ae6b4; }
+.badge-blue { background: #ebf8ff; color: #2b6cb0; border: 1px solid #bee3f8; }
+.badge-purple { background: #faf5ff; color: #6b46c1; border: 1px solid #d6bcfa; }
+.badge-orange { background: #fffaf0; color: #c05621; border: 1px solid #fbd38d; }
+
+/* === Itineraries === */
+.itinerary-list { display: flex; flex-direction: column; gap: 1.25rem; }
+.itinerary-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+.itinerary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.25rem;
+  gap: 1rem;
+}
+.itinerary-header h3 { font-size: 1.2rem; font-weight: 700; color: #1a365d; margin-bottom: 0.3rem; }
+.itinerary-description { color: #718096; font-size: 0.9rem; margin-bottom: 0.3rem; }
+.itinerary-dates { font-size: 0.875rem; color: #4a5568; margin-bottom: 0.3rem; }
+.itinerary-meta { font-size: 0.8rem; color: #a0aec0; }
+.itinerary-actions { display: flex; gap: 0.5rem; flex-shrink: 0; align-items: flex-start; }
+.itinerary-places { border-top: 1px solid #e2e8f0; padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.itinerary-place-item { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.9rem; }
+.place-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
+.place-city { color: #718096; }
+.day-badge { background: #ebf8ff; color: #2b6cb0; font-size: 0.75rem; padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.5rem; font-weight: 600; }
+.item-notes { color: #718096; font-size: 0.8rem; margin-top: 0.2rem; }
+
+/* === Create Form Card === */
+.create-form-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #bee3f8;
+}
+.create-form-card h3 { margin-bottom: 1rem; color: #1a365d; font-size: 1.1rem; }
+.create-form-card .btn-primary { width: auto; }
+
+/* === Map === */
+.map-container {
+  width: 100%;
+  height: 520px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.map-legend { background: #ebf8ff; border: 1px solid #bee3f8; color: #2b6cb0; padding: 0.6rem 1rem; border-radius: 6px; margin-bottom: 1rem; font-size: 0.9rem; }
+.map-hint { margin-top: 1rem; color: #718096; font-size: 0.875rem; }
+.map-itinerary-select { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
+.map-itinerary-select select { padding: 0.4rem 0.6rem; border: 1px solid #cbd5e0; border-radius: 6px; }
+
+/* === Modal === */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.75rem;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+.modal h3 { margin-bottom: 1.25rem; color: #1a365d; font-size: 1.1rem; }
+.modal-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+.modal-actions .btn-primary { flex: 1; }
+
+/* === Misc === */
+.loading { text-align: center; padding: 3rem; color: #718096; font-size: 1rem; }
+.empty-state { text-align: center; padding: 3rem; color: #718096; background: #fff; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.no-results { color: #718096; padding: 2rem 0; text-align: center; }
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  .navbar { gap: 1rem; padding: 0 0.75rem; }
+  .navbar-links { gap: 0.75rem; }
+  .navbar-user span { display: none; }
+  .search-row { flex-direction: column; }
+  .search-row .btn-primary { width: 100%; }
+  .itinerary-header { flex-direction: column; }
+  .form-row { grid-template-columns: 1fr; }
+}
