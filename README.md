@@ -4,6 +4,12 @@ A full-stack web application for planning accessible travel. Find wheelchair-acc
 
 ---
 
+## Live Demo
+
+Coming soon – deployment in progress.
+
+---
+
 ## Screenshots
 
 ### Login Page
