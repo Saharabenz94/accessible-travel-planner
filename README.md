@@ -151,9 +151,9 @@ You can now call any protected endpoint directly from the browser:
 # Create the database
 psql -U postgres -c "CREATE DATABASE traveldb;"
 
-# Run the backend
+# Run the backend (DB_HOST=localhost overrides the Docker default of 'postgres')
 cd backend
-mvn spring-boot:run
+DB_HOST=localhost mvn spring-boot:run
 ```
 
 The backend starts on `http://localhost:8080`.
@@ -220,7 +220,7 @@ All endpoints are under `/api`. Authentication endpoints are public; all others 
 
 | Variable      | Default                                    | Description                  |
 |---------------|--------------------------------------------|------------------------------|
-| `DB_HOST`     | `localhost`                                | PostgreSQL host              |
+| `DB_HOST`     | `postgres`                                 | PostgreSQL host (`postgres` = Docker Compose service name; use `localhost` for local dev) |
 | `DB_PORT`     | `5432`                                     | PostgreSQL port              |
 | `DB_NAME`     | `traveldb`                                 | Database name                |
 | `DB_USER`     | `postgres`                                 | Database user                |
