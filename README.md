@@ -4,6 +4,22 @@ A full-stack web application for planning accessible travel. Find wheelchair-acc
 
 ---
 
+## Screenshots
+
+### Login Page
+![Login](screenshots/login.png)
+
+### Search Accessible Places
+![Search](screenshots/search.png)
+
+### Itinerary Builder
+![Itinerary](screenshots/itinerary.png)
+
+### Map View
+![Map](screenshots/map.png)
+
+---
+
 ## Tech Stack
 
 | Layer       | Technology                                    |
