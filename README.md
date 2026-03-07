@@ -6,7 +6,14 @@ A full-stack web application for planning accessible travel. Find wheelchair-acc
 
 ## Live Demo
 
-Coming soon – deployment in progress.
+Frontend  
+https://accessible-travel-planner.vercel.app
+
+Backend API  
+https://accessible-travel-planner.onrender.com/api
+
+Swagger API Docs  
+https://accessible-travel-planner.onrender.com/api/swagger-ui/index.html
 
 ---
 
@@ -17,6 +24,9 @@ Coming soon – deployment in progress.
 
 ### Search Accessible Places
 ![Search](screenshots/search.png)
+
+### Create Itinerary Box
+![Create Itinerary](screenshots/create_itinerary.png)
 
 ### Itinerary Builder
 ![Itinerary](screenshots/itinerary.png)
