@@ -54,6 +54,7 @@ export default function LoginPage() {
               required
               placeholder="••••••"
             />
+            <p className="field-hint">Your password is case-sensitive.</p>
           </div>
           <button type="submit" className="btn-primary" disabled={loading}>
             {loading ? 'Signing in...' : 'Sign In'}
