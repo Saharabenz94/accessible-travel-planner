@@ -88,32 +88,61 @@ a:hover { text-decoration: underline; }
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  background: linear-gradient(160deg, #EBF4FD 0%, #F5F7FA 55%, #E8F5F0 100%);
 }
 .auth-card {
   background: var(--color-card);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  padding: 2.75rem;
+  box-shadow: 0 12px 48px rgba(11,60,93,0.16), 0 2px 8px rgba(11,60,93,0.08);
+  padding: 3rem;
   width: 100%;
-  max-width: 420px;
+  max-width: 460px;
   border: 1px solid var(--color-border);
 }
 .auth-card h1 {
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: var(--color-text-secondary);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   font-weight: 500;
+  letter-spacing: 0.01em;
 }
 .auth-card h2 {
   text-align: center;
-  font-size: 1.65rem;
+  font-size: 1.9rem;
   font-weight: 700;
-  margin-bottom: 1.75rem;
+  margin-bottom: 2rem;
   color: var(--color-navbar);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
-.auth-switch { text-align: center; margin-top: 1.5rem; color: var(--color-text-secondary); font-size: 0.9rem; }
+.auth-card .form-group {
+  margin-bottom: 1.35rem;
+}
+.auth-card .form-group input {
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+}
+.auth-card .btn-primary {
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  border-radius: var(--radius-md);
+  margin-top: 0.5rem;
+  letter-spacing: 0.02em;
+}
+.field-hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 0.35rem;
+}
+.auth-switch {
+  text-align: center;
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
 
 /* === Forms === */
 .form-group { margin-bottom: 1.1rem; }
@@ -417,5 +446,5 @@ a:hover { text-decoration: underline; }
   .search-row .btn-primary { width: 100%; }
   .itinerary-header { flex-direction: column; }
   .form-row { grid-template-columns: 1fr; }
-  .auth-card { padding: 2rem 1.5rem; }
+  .auth-card { padding: 2rem 1.5rem; max-width: 100%; }
 }

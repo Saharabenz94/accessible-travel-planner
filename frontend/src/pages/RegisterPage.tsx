@@ -71,6 +71,7 @@ export default function RegisterPage() {
               placeholder="Minimum 6 characters"
               minLength={6}
             />
+            <p className="field-hint">Must be at least 6 characters long.</p>
           </div>
           <button type="submit" className="btn-primary" disabled={loading}>
             {loading ? 'Creating account...' : 'Create Account'}
