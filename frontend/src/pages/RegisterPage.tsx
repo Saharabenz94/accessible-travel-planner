@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { register as registerApi } from '../api';
 import { useAuth } from '../contexts/AuthContext';
@@ -8,16 +8,26 @@ export default function RegisterPage() {
   const { login } = useAuth();
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const redirectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (redirectTimerRef.current) clearTimeout(redirectTimerRef.current);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
     try {
       const data = await registerApi(form);
       login(data.token, { id: data.id, name: data.name, email: data.email, role: data.role });
-      navigate('/places');
+      setSuccess('Account created! Redirecting…');
+      redirectTimerRef.current = setTimeout(() => navigate('/places'), 800);
     } catch (err: unknown) {
       const apiErr = err as { response?: { data?: { message?: string; fieldErrors?: Record<string, string> } } };
       const fieldErrors = apiErr?.response?.data?.fieldErrors;
@@ -26,7 +36,6 @@ export default function RegisterPage() {
       } else {
         setError(apiErr?.response?.data?.message || 'Registration failed');
       }
-    } finally {
       setLoading(false);
     }
   };
@@ -36,7 +45,8 @@ export default function RegisterPage() {
       <div className="auth-card">
         <h1>🌍 Accessible Travel Planner</h1>
         <h2>Create Account</h2>
-        {error && <div className="error-banner">{error}</div>}
+        {success && <div className="success-banner" role="status">{success}</div>}
+        {error && <div className="error-banner" role="alert">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Full Name</label>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getItineraries, createItinerary, deleteItinerary } from '../api';
 import type { Itinerary } from '../types';
 import { Link } from 'react-router-dom';
@@ -17,13 +17,24 @@ export default function ItineraryPage() {
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [showCreate, setShowCreate] = useState(false);
   const [form, setForm] = useState({ title: '', description: '', startDate: '', endDate: '' });
   const [creating, setCreating] = useState(false);
+  const successTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     fetchItineraries();
+    return () => {
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+    };
   }, []);
+
+  const showSuccess = (msg: string) => {
+    setSuccess(msg);
+    if (successTimerRef.current) clearTimeout(successTimerRef.current);
+    successTimerRef.current = setTimeout(() => setSuccess(''), 4000);
+  };
 
   const fetchItineraries = async () => {
     setLoading(true);
@@ -51,6 +62,7 @@ export default function ItineraryPage() {
       setForm({ title: '', description: '', startDate: '', endDate: '' });
       setShowCreate(false);
       await fetchItineraries();
+      showSuccess('Itinerary created successfully!');
     } catch {
       setError('Failed to create itinerary.');
     } finally {
@@ -63,6 +75,7 @@ export default function ItineraryPage() {
     try {
       await deleteItinerary(id);
       setItineraries((prev) => prev.filter((it) => it.id !== id));
+      showSuccess(`"${title}" deleted.`);
     } catch {
       setError('Failed to delete itinerary.');
     }
@@ -80,7 +93,8 @@ export default function ItineraryPage() {
         </button>
       </div>
 
-      {error && <div className="error-banner">{error}</div>}
+      {success && <div className="success-banner" role="status">{success}</div>}
+      {error && <div className="error-banner" role="alert">{error}</div>}
 
       {showCreate && (
         <div className="create-form-card">

@@ -249,6 +249,9 @@ a:hover { text-decoration: underline; }
 
 /* === Banners === */
 .error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
   background: #FEF2F2;
   border: 1.5px solid #FECACA;
   color: #B91C1C;
@@ -258,7 +261,15 @@ a:hover { text-decoration: underline; }
   font-size: 0.875rem;
   font-weight: 500;
 }
+.error-banner::before {
+  content: '⚠';
+  flex-shrink: 0;
+  font-style: normal;
+}
 .success-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
   background: #F0FDF4;
   border: 1.5px solid #86EFAC;
   color: #166534;
@@ -267,6 +278,11 @@ a:hover { text-decoration: underline; }
   margin-bottom: 1.1rem;
   font-size: 0.875rem;
   font-weight: 500;
+}
+.success-banner::before {
+  content: '✓';
+  flex-shrink: 0;
+  font-weight: 700;
 }
 
 /* === Page === */
@@ -699,6 +715,27 @@ a:hover { text-decoration: underline; }
 .map-place-location { font-size: 0.775rem; color: var(--color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .map-place-a11y-tags { display: flex; gap: 0.2rem; flex-wrap: wrap; margin-top: 0.1rem; }
 .map-a11y-dot { font-size: 0.78rem; cursor: default; }
+
+/* Loading state */
+.map-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1.25rem 0.5rem;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.map-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
 
 /* Empty state */
 .map-empty-state {
