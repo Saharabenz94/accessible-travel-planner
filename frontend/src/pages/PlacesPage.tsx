@@ -13,6 +13,7 @@ export default function PlacesPage() {
   const [places, setPlaces] = useState<Place[]>([]);
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -57,6 +58,7 @@ export default function PlacesPage() {
       if (filters.stepFreeEntry) params.stepFreeEntry = true;
       const data = await searchPlaces(params);
       setPlaces(data);
+      setSearched(true);
     } catch {
       setError('Failed to load places. Please try again.');
     } finally {
@@ -100,17 +102,24 @@ export default function PlacesPage() {
 
   return (
     <div className="page">
-      <h2>🔍 Search Accessible Places</h2>
+      <div className="places-page-header">
+        <h2>🗺️ Discover Accessible Places</h2>
+        <p className="places-page-subtitle">Search hotels and restaurants filtered by the accessibility features that matter to you.</p>
+      </div>
 
       {success && <div className="success-banner">{success}</div>}
       {error && <div className="error-banner">{error}</div>}
 
       <form className="search-form" onSubmit={handleSearch}>
+        <div className="search-form-header">
+          <span className="search-form-label">🔍 Search & Filter</span>
+        </div>
         <div className="search-row">
           <select
             value={filters.type}
             onChange={(e) => setFilters({ ...filters, type: e.target.value })}
             className="select-input"
+            aria-label="Place type"
           >
             <option value="">All Types</option>
             <option value="hotel">Hotel</option>
@@ -122,11 +131,16 @@ export default function PlacesPage() {
             value={filters.city}
             onChange={(e) => setFilters({ ...filters, city: e.target.value })}
             className="text-input"
+            aria-label="City"
           />
-          <button type="submit" className="btn-primary">Search</button>
+          <button type="submit" className="btn-search" disabled={loading}>
+            {loading ? <span className="btn-spinner" aria-hidden="true" /> : null}
+            {loading ? 'Searching…' : 'Search'}
+          </button>
         </div>
 
         <div className="filter-checkboxes">
+          <span className="filter-label">Accessibility:</span>
           {ACCESSIBILITY_FILTERS.map(({ key, label }) => (
             <label key={key} className="checkbox-label">
               <input
@@ -134,6 +148,7 @@ export default function PlacesPage() {
                 checked={filters[key]}
                 onChange={(e) => setFilters({ ...filters, [key]: e.target.checked })}
               />
+              <span className="checkbox-custom" aria-hidden="true" />
               {label}
             </label>
           ))}
@@ -141,31 +156,49 @@ export default function PlacesPage() {
       </form>
 
       {loading ? (
-        <div className="loading">Loading places...</div>
-      ) : (
-        <div className="places-grid">
-          {places.length === 0 ? (
-            <p className="no-results">No places found. Try adjusting your filters.</p>
-          ) : (
-            places.map((place) => (
-              <div key={place.id} className="place-card">
-                <div className="place-header">
-                  <span className="place-type-badge">{place.type === 'hotel' ? '🏨' : '🍽️'} {place.type}</span>
-                  <h3>{place.name}</h3>
-                </div>
-                <p className="place-address">📍 {place.address}, {place.city}, {place.country}</p>
-                {place.description && <p className="place-description">{place.description}</p>}
-                <AccessibilityBadge place={place} />
-                <button
-                  className="btn-secondary"
-                  onClick={() => setAddModal({ place, itineraryId: itineraries[0]?.id?.toString() || '__new__' })}
-                >
-                  + Add to Itinerary
-                </button>
-              </div>
-            ))
-          )}
+        <div className="places-loading">
+          <span className="places-spinner" aria-label="Loading places" />
+          <span>Finding places…</span>
         </div>
+      ) : (
+        <>
+          {searched && (
+            <div className="results-meta">
+              {places.length > 0
+                ? <span>{places.length} place{places.length !== 1 ? 's' : ''} found</span>
+                : null}
+            </div>
+          )}
+          <div className="places-grid">
+            {places.length === 0 && searched ? (
+              <div className="places-empty-state">
+                <div className="places-empty-icon" aria-hidden="true">🔭</div>
+                <h3>No places found</h3>
+                <p>Try broadening your search or removing some accessibility filters.</p>
+              </div>
+            ) : (
+              places.map((place) => (
+                <div key={place.id} className="place-card">
+                  <div className="place-header">
+                    <span className="place-type-badge">{place.type === 'hotel' ? '🏨' : '🍽️'} {place.type}</span>
+                    <h3>{place.name}</h3>
+                  </div>
+                  <p className="place-address">📍 {place.address}, {place.city}, {place.country}</p>
+                  {place.description && <p className="place-description">{place.description}</p>}
+                  <AccessibilityBadge place={place} />
+                  <div className="place-card-footer">
+                    <button
+                      className="btn-add-itinerary"
+                      onClick={() => setAddModal({ place, itineraryId: itineraries[0]?.id?.toString() || '__new__' })}
+                    >
+                      <span aria-hidden="true">+</span> Add to Itinerary
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </>
       )}
 
       {/* Add to Itinerary Modal */}
