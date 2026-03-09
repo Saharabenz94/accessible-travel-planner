@@ -107,8 +107,8 @@ export default function PlacesPage() {
         <p className="places-page-subtitle">Search hotels and restaurants filtered by the accessibility features that matter to you.</p>
       </div>
 
-      {success && <div className="success-banner">{success}</div>}
-      {error && <div className="error-banner">{error}</div>}
+      {success && <div className="success-banner" role="status">{success}</div>}
+      {error && <div className="error-banner" role="alert">{error}</div>}
 
       <form className="search-form" onSubmit={handleSearch}>
         <div className="search-form-header">

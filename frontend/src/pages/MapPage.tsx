@@ -56,13 +56,14 @@ export default function MapPage() {
   const markersRef = useRef<Map<number, L.Marker>>(new Map());
   const [itinerary, setItinerary] = useState<Itinerary | null>(null);
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
 
   useEffect(() => {
     getItineraries()
-      .then(setItineraries)
-      .catch(() => setError('Failed to load itineraries'));
+      .then((data) => { setItineraries(data); setLoading(false); })
+      .catch(() => { setError('Failed to load itineraries'); setLoading(false); });
   }, []);
 
   useEffect(() => {
@@ -172,7 +173,7 @@ export default function MapPage() {
         )}
       </div>
 
-      {error && <div className="error-banner">{error}</div>}
+      {error && <div className="error-banner" role="alert">{error}</div>}
 
       {/* Two-column layout */}
       <div className="map-layout">
@@ -185,7 +186,12 @@ export default function MapPage() {
 
           <div className="map-sidebar-section">
             <h4 className="map-sidebar-subheading">Saved Places</h4>
-            {uniquePlaces.length === 0 ? (
+            {loading ? (
+              <div className="map-loading" aria-label="Loading places">
+                <span className="map-spinner" aria-hidden="true" />
+                Loading places…
+              </div>
+            ) : uniquePlaces.length === 0 ? (
               <div className="map-empty-state">
                 <div className="map-empty-icon">📍</div>
                 <p className="map-empty-title">No places yet</p>
