@@ -3,6 +3,16 @@ import { getItineraries, createItinerary, deleteItinerary } from '../api';
 import type { Itinerary } from '../types';
 import { Link } from 'react-router-dom';
 
+/** Format a YYYY-MM-DD string as "Jan 15, 2024" without timezone shift. */
+function formatDate(dateStr: string): string {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
 export default function ItineraryPage() {
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const [loading, setLoading] = useState(true);
@@ -61,9 +71,12 @@ export default function ItineraryPage() {
   return (
     <div className="page">
       <div className="page-header">
-        <h2>🗺️ My Itineraries</h2>
+        <div>
+          <h2>🗺️ My Itineraries</h2>
+          <p className="itinerary-page-subtitle">Manage your saved travel plans and places</p>
+        </div>
         <button className="btn-primary" onClick={() => setShowCreate(!showCreate)}>
-          {showCreate ? 'Cancel' : '+ New Itinerary'}
+          {showCreate ? '✕ Cancel' : '+ New Itinerary'}
         </button>
       </div>
 
@@ -118,25 +131,40 @@ export default function ItineraryPage() {
       )}
 
       {loading ? (
-        <div className="loading">Loading itineraries...</div>
+        <div className="itinerary-loading">
+          <span className="itinerary-spinner" />
+          Loading itineraries…
+        </div>
       ) : itineraries.length === 0 ? (
-        <div className="empty-state">
-          <p>No itineraries yet. Create one or add places from the <Link to="/places">Places</Link> page.</p>
+        <div className="itinerary-empty-state">
+          <div className="itinerary-empty-icon">🗺️</div>
+          <h3>No itineraries yet</h3>
+          <p>Create your first travel plan and start adding places to explore.</p>
+          <button className="btn-primary" onClick={() => setShowCreate(true)}>
+            + Create First Itinerary
+          </button>
         </div>
       ) : (
         <div className="itinerary-list">
           {itineraries.map((it) => (
             <div key={it.id} className="itinerary-card">
               <div className="itinerary-header">
-                <div>
-                  <h3>{it.title}</h3>
+                <div className="itinerary-card-info">
+                  <div className="itinerary-title-row">
+                    <h3>{it.title}</h3>
+                    <span className="itinerary-place-count-badge">
+                      {it.items.length} {it.items.length !== 1 ? 'places' : 'place'}
+                    </span>
+                  </div>
                   {it.description && <p className="itinerary-description">{it.description}</p>}
                   {(it.startDate || it.endDate) && (
                     <p className="itinerary-dates">
-                      📅 {it.startDate || '—'} → {it.endDate || '—'}
+                      📅 {it.startDate ? formatDate(it.startDate) : '—'} → {it.endDate ? formatDate(it.endDate) : '—'}
                     </p>
                   )}
-                  <p className="itinerary-meta">{it.items.length} place{it.items.length !== 1 ? 's' : ''} · Created {new Date(it.createdAt).toLocaleDateString()}</p>
+                  <p className="itinerary-meta">
+                    Created {new Date(it.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </p>
                 </div>
                 <div className="itinerary-actions">
                   <Link to={`/map?itinerary=${it.id}`} className="btn-secondary">🗺️ View Map</Link>
@@ -146,6 +174,7 @@ export default function ItineraryPage() {
 
               {it.items.length > 0 && (
                 <div className="itinerary-places">
+                  <p className="itinerary-places-label">Saved places</p>
                   {it.items.map((item) => (
                     <div key={item.id} className="itinerary-place-item">
                       <span className="place-icon">{item.place.type === 'hotel' ? '🏨' : '🍽️'}</span>
